@@ -1,6 +1,6 @@
 <template>
   <div class="grid">
-    <Character :x="cases[6].x" :y="cases[6].y"/>
+    <Character :x="cases[10].x" :y="cases[10].y"/>
   </div>
 </template>
 
@@ -26,10 +26,10 @@ export default {
         { id: 4, x: 128, y: 48 },
         { id: 5, x: 160, y: 60 },
         { id: 6, x: 192, y: 72 },
-        { id: 7, x: 0, y: 84 },
-        { id: 8, x: 0, y: 96 },
-        { id: 9, x: 0, y: 108 },
-        { id: 10, x: 0, y: 0 },
+        { id: 7, x: 224, y: 84 },
+        { id: 8, x: 256, y: 96 },
+        { id: 9, x: 288, y: 108 },
+        { id: 10, x: 320, y: 120 },
         { id: 11, x: 0, y: 0 },
         { id: 12, x: 0, y: 0 },
         { id: 13, x: 0, y: 0 },

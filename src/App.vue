@@ -1,9 +1,9 @@
 <template>
   <Grid/>
-  <PlayerCard :x="0" :y="0"/>
-  <PlayerCard :x="1000" :y="0"/>
-  <PlayerCard :x="0" :y="800"/>
-  <PlayerCard :x="1000" :y="800"/>
+  <PlayerCard :top="0" :left="0" :color="'#32B667'"/>
+  <PlayerCard :top="0" :right="0" :color="'#FF3838'"/>
+  <PlayerCard :bottom="0" :left="0" :color="'#FF9838'"/>
+  <PlayerCard :bottom="0" :right="0" :color="'#38A0FF'"/>
 </template>
 
 <script>
