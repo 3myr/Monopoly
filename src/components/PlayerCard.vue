@@ -4,7 +4,7 @@
     <div class="headerContainer" :style="headerStyle">
       <div class="headerNameContainer" :style="headerNameStyle">
         <p class="headerName">
-          EmyLePur
+          EmyrLePur
         </p>
       </div>
     </div>
@@ -13,15 +13,17 @@
     <div class="infoContainer" :style="infoStyle">
       <div class="cashContainer" :style="cashStyle">
         <div class="cash">
-          <p class="cashText">1 825 000</p>
+          <p class="cashText">{{this.formatScore(this.score)}}</p>
           <div class="cashIcon">
-
+            <img src="../assets/cash.png" alt="" style='height: 100%; width: 100%; object-fit: contain'>
           </div>
         </div>
 
         <!-- Temps restant pour le joueur, caché par défaut -->
-        <div class="time">
+        <div class="time" ref="progressBarFull">
+          <div class="timePassed" :style="{width: timePassed + 'px'}">
 
+          </div>
         </div>
       </div>
     </div>
@@ -29,7 +31,7 @@
     <!-- Photo -->
     <div>
       <div class="pictureContainer" :style="pictureStyle">
-
+        <img :src="require(`@/${picturePath}`)" alt="" style='height: 100%; width: 100%; object-fit: cover'>
       </div>
     </div>
   </div>
@@ -54,6 +56,22 @@ export default {
     },
     color: {
       type: String
+    },
+    picturePath: {
+      type: String,
+      default : "assets/profile/mustache.jpg"
+    },
+    isTurn: {
+      type: Boolean,
+      default : false
+    },
+    timeForTurn :{
+      type: Number,
+      default : 15000
+    },
+    score :{
+      type: Number,
+      default : 1000000
     }
   },
   data() {
@@ -61,6 +79,10 @@ export default {
       headerHeight: 38,
       pictureMargin: 4,
       headerNameMargin: 14, /* TODO A Modifier */
+      timePassed: 0,
+      timeLeft: 3,
+      play: this.isTurn,
+      duration : this.timeForTurn,
     }
   },
   computed: {
@@ -152,7 +174,38 @@ export default {
         right: this.left !== null ? (this.left + this.headerNameMargin) + 'px' : '',
       }
     }
-  }
+    },
+  methods: {
+    startTimer()
+    {
+      if(this.play)
+      {
+        const progressBarWidth = this.$refs.progressBarFull.offsetWidth;
+        const interval = 10;
+        const increment = interval * progressBarWidth / this.duration; // Incrément de la barre de progression
+        this.intervalId = setInterval(() => {
+          if (this.timePassed >= progressBarWidth) {
+            this.timePassed = 0;
+            this.play = false;
+            clearInterval(this.intervalId);
+            this.$emit('player-tour-ended', this);
+          } else {
+            this.timePassed += increment;
+          }
+        }, 10);
+      }
+    },
+    activeTimer()
+    {
+      this.play = true;
+    },
+    formatScore(score) {
+      return score.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+  },
+  mounted() {
+    this.startTimer();
+  },
 }
 </script>
 
@@ -229,10 +282,12 @@ export default {
 
   position: absolute;
 
+  top: 10px;
+
   display: flex;
   flex-direction: column;
 
-  justify-content: center;
+  #justify-content: center;
   align-items: center;
   gap: 5px;
 
@@ -240,11 +295,13 @@ export default {
 }
 
 .cash{
+
+  position: absolute;
+
+  right: 20px;
+
   display: flex;
   flex-direction: row;
-
-  justify-content: center;
-  align-items: center;
 }
 
 .cashText{
@@ -256,15 +313,26 @@ export default {
   height: 20px;
   width: 20px;
 
-  background-color: white;
-  margin-left: 5px;
+  #background-color: white;
+  margin-left: 6px;
+  margin-top: 2px;
 }
 
 .time{
   width: 90%;
   height: 5px;
 
-  background-color: red;
+  position: absolute;
+
+  bottom: 15px;
+
+  background-color: white;
+}
+
+.timePassed{
+  height: 100%;
+
+  background-color: #FFCD1D;
 }
 /*        */
 
@@ -273,6 +341,8 @@ export default {
   width: 90px;
   height: 90px; /* Hauteur par défaut */
 
+  box-sizing: border-box;
+  border: 4px solid white;
   border-radius: 10px;
 
   position: absolute;

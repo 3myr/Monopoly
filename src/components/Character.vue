@@ -21,27 +21,28 @@ export default {
           x: this.x,
           y: this.y,
         },
+        xShift: 52,
+        yShift: 30,
       };
     },
     mounted() {
       document.addEventListener("keydown", (event) => {
-        console.log(event.keyCode);
         if (event.keyCode === 37) {
           // fleche gauche
-          this.position.x -= 32;
-          this.position.y += 12;
+          this.position.x -= this.xShift; // 32
+          this.position.y += this.yShift; // 12
         } else if (event.keyCode === 38) {
           // fleche haut
-          this.position.x -= 32;
-          this.position.y -= 12;
+          this.position.x -= this.xShift;
+          this.position.y -= this.yShift;
         } else if (event.keyCode === 39) {
           // fleche droite
-          this.position.x += 32;
-          this.position.y -= 12;
+          this.position.x += this.xShift;
+          this.position.y -= this.yShift;
         } else if (event.keyCode === 40) {
           // fleche bas
-          this.position.x += 32;
-          this.position.y += 12;
+          this.position.x += this.xShift;
+          this.position.y += this.yShift;
         }
       });
     }
